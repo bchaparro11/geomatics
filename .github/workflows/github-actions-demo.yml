@@ -1,0 +1,17 @@
+name: Geomatics CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  geomatics-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: First Stage
+        run: echo "First stage"
+
+      - name: Second Stage
+        run: echo "Second stage"
