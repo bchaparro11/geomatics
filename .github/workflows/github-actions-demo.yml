@@ -6,23 +6,24 @@ on:
       - main
 
 jobs:
-  geomatics-pipeline:
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
-      - name: First Stage
-        run: echo "First stage"
-      - name: Second Stage
-        run: echo "Second stage"
+      - name: First sub-stage
+        run: echo "First sub-stage"
+      - name: Second sub-stage
+        run: echo "Second sub-stage"
 
   build_publish:
-    name: Build and Publish Stage
+    name: build_publish
     runs-on: ubuntu-latest
     services:
       docker:
-        image: docker:20.10-dind
+        image: docker:dind
         options: --privileged
     env:
-      DOCKER_HOST: tcp://localhost:2375
+      DOCKER_HOST: tcp://docker:2375
       DOCKER_TLS_CERTDIR: ""
     steps:
-      - run: echo "Second Stage testing"
+      - run: echo "Second Stage testing - Docker stage"
