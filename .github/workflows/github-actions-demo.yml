@@ -31,4 +31,4 @@ jobs:
     name: aws authentication
     runs-on: ubuntu-latest
     steps:
-      - run: aws
+      - run: aws configure
