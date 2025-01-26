@@ -27,3 +27,8 @@ jobs:
       DOCKER_TLS_CERTDIR: ""
     steps:
       - run: echo "Second Stage testing - Docker stage"
+  aws_authentication:
+    name: aws authentication
+    runs-on: ubuntu-latest
+    steps:
+      - run: aws
