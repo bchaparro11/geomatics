@@ -1,6 +1,6 @@
 provider "azurerm" {
     features {}
-    subscription_id = "<SUBSCRIPTION-ID>"
+    subscription_id = ""
   }
   
   resource "azurerm_resource_group" "rg" {
@@ -14,6 +14,7 @@ provider "azurerm" {
     resource_group_name       = azurerm_resource_group.rg.name
     offer_type                = "Standard"
     kind                      = "MongoDB"
+    mongo_server_version      = "7.0"
     #enable_automatic_failover = true
     capabilities {
       name = "EnableMongo"
@@ -25,13 +26,18 @@ provider "azurerm" {
       consistency_level = "Session"
     }
     geo_location {
-      location          = "East US"
+      location          = "Japan East"
       failover_priority = 0
     }
     geo_location {
-      location          = "West US"
+      location          = "Germany West Central"
       failover_priority = 1
     }
+
+    geo_location {
+    location          = "Central US"  # Second Replica
+    failover_priority = 2
+  }
   }
   
   resource "azurerm_cosmosdb_mongo_database" "mongodb_db" {
