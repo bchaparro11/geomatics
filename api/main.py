@@ -1,6 +1,4 @@
-from python_terraform import Terraform
 from fastapi import FastAPI
-
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -19,15 +17,21 @@ app.add_middleware(
 )
 
 
-def create_mongodb_cluster(word: str) -> str:
+def create_cluster(database_engine: str) -> str:
 
-    terraform = Terraform(working_dir="/path/to/my/terraform/project")
-    
-    terraform.init()
-    
-    print(terraform.plan())
-    
-    print(terraform.apply(skip_plan=True))
+    import subprocess
+    import os
+
+    terraform_dir = r""+f"{database_engine}"
+    terraform_dir = terraform_dir.replace(" ","")
+    credentials_path = r""
+
+    env = os.environ.copy()
+    env["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
+
+    cmd = f'start cmd /k "cd /d \"{terraform_dir}\" && terraform init && terraform destroy -auto-approve"'
+
+    subprocess.Popen(cmd, shell=True, env=env)
 
 
 @app.get("/")
@@ -35,6 +39,7 @@ def read_root():
     return {"It's Working": "Keep Coding on Geomatics-API!"}
 
 
-@app.get("/word/{word}")
-def read_word(word: str):
-    return create_mongodb_cluster(word)
+@app.get("/engine/{database_engine}")
+def read_database_engine(database_engine: str):
+    create_cluster(database_engine)
+    return {"Executed!": f"Creating {database_engine} cluster"}
